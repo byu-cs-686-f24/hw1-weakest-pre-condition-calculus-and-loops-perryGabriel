@@ -55,16 +55,16 @@ function fact(n : int) : (res : int)
 method ComputeFact(n : nat) returns (res : nat)
   requires n > 0
   ensures 
-    && (n==1 ==> res==1)
-    && (res == fact(n))
+    && (n==1 ==> res==1) // base case
+    && (res == fact(n)) // general spec matches
   {
     res := 1;
     var i := 2;
     while (i <= n)
       invariant
-        && (n==1 ==> res==1)
-        && ((n > 1) ==> (1<=i-1<=n))
-        && (res == fact(i-1))
+        // && (n==1 ==> res==1)
+        && (2<=i<=n+1) // bound range of i
+        && (res == fact(i-1)) // equivalent to spec
       decreases n-i
     {
       res := res * i;
