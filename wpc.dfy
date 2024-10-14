@@ -47,22 +47,15 @@ function fact(n : int) : (res : int)
     if n == 1 then 1 else n * fact(n-1)
   }
 
-// lemma {:axiom} factorial(n : int)
-//   ensures 
-//     && fact(1) == 1
-//     && (forall m : int :: 1 < m ==> fact(m) == m * fact(m - 1))
-
 method ComputeFact(n : nat) returns (res : nat)
   requires n > 0
   ensures 
-    && (n==1 ==> res==1) // base case
-    && (res == fact(n)) // general spec matches
+    && (res == fact(n)) // spec matches
   {
     res := 1;
     var i := 2;
     while (i <= n)
       invariant
-        // && (n==1 ==> res==1)
         && (2<=i<=n+1) // bound range of i
         && (res == fact(i-1)) // equivalent to spec
       decreases n-i
